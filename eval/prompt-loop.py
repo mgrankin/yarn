@@ -30,7 +30,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-m", "--model", type=str, required=True)
+    parser.add_argument("-m", "--model", type=str, default='/models/Yarn-Llama-2-7b-128k')
     parser.add_argument("--max-new-tokens", type=int, default=256)
     parser.add_argument("--input-file", type=str)
     parser.add_argument("--temperature", type=float)
@@ -39,4 +39,5 @@ if __name__ == "__main__":
     parser.add_argument("--top-k", type=int)
 
     args = add_args(parser).parse_args()
+    args.custom_model_together = True
     main(args)

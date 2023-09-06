@@ -1,0 +1,18 @@
+version: "3.3"
+
+services:
+  serve:
+    image: "serve"
+    restart: always
+    shm_size: 1gb
+    network_mode: host
+    volumes:
+      - /home/u/yarn2:/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['all']  
+            capabilities: [gpu]
+  

@@ -1,0 +1,47 @@
+
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
+{
+	"name": "serve",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	//"image": "nvcr.io/nvidia/pytorch:23.04-py3",
+	"build": {
+        // Path is relataive to the devcontainer.json file.
+        "dockerfile": "../Dockerfile"
+    }, 
+
+	"runArgs": [
+		"--shm-size",
+		"1g",
+		"--gpus",
+		"all",
+		"--network=host"
+	],
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+	"mounts": [
+		"source=/home/u/yarn2,target=/models,type=bind,consistency=cached",
+	  ],
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			"settings": {},
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"ms-toolsai.jupyter",
+				"ms-toolsai.jupyter-keymap",
+				"ms-toolsai.jupyter-renderers",
+				"ms-toolsai.vscode-jupyter-cell-tags",
+				"ms-toolsai.vscode-jupyter-slideshow",
+				"ms-azuretools.vscode-docker",
+					]
+		}
+	},
+
+	//"postCreateCommand": "pip install -r req.txt",
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+}
+

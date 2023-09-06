@@ -28,43 +28,43 @@ def load_model(model, args):
         config.use_cache = False
     else:
         config.use_cache = True
-    if args.custom_model or args.custom_model_together:
-        if args.linear:
-            config.rope_scaling = {
-                "type": "linear",
-                "factor": args.linear
-            }
-        elif args.dynamic_ntk:
-            config.rope_scaling = {
-                "type": "dynamic",
-                "factor": args.dynamic_ntk
-            }
-        elif args.part_ntk:
-            config.rope_scaling = {
-                "type": "ntk-by-parts",
-                "factor": args.part_ntk
-            }
-        elif args.yarn:
-            config.rope_scaling = {
-                "type": "yarn",
-                "factor": args.yarn,
-                "original_max_position_embeddings": args.original_max_position_embeddings,
-            }
-        elif args.dynamic_yarn:
-            config.rope_scaling = {
-                "type": "dynamic-yarn",
-                "factor": args.factor if args.factor else config.rope_scaling.get("factor", 1.0),
-                "original_max_position_embeddings": args.original_max_position_embeddings if args.original_max_position_embeddings else config.rope_scaling["original_max_position_embeddings"],
-                "finetuned": args.finetuned if args.finetuned else config.rope_scaling.get("finetuned", False)
-            }
-        if args.flash_attention:
-            config.use_flash_attention = args.flash_attention
-    else:
-        if args.rerope:
-            assert not args.custom_model and not args.custom_model_together
-            from transformers.models.llama.modeling_llama import LlamaAttention
-            from scaled_rope.LlamaReRoPE import forward_with_rerope
-            LlamaAttention.forward = forward_with_rerope
+    # if args.custom_model or args.custom_model_together:
+    #     if args.linear:
+    #         config.rope_scaling = {
+    #             "type": "linear",
+    #             "factor": args.linear
+    #         }
+    #     elif args.dynamic_ntk:
+    #         config.rope_scaling = {
+    #             "type": "dynamic",
+    #             "factor": args.dynamic_ntk
+    #         }
+    #     elif args.part_ntk:
+    #         config.rope_scaling = {
+    #             "type": "ntk-by-parts",
+    #             "factor": args.part_ntk
+    #         }
+    #     elif args.yarn:
+    #         config.rope_scaling = {
+    #             "type": "yarn",
+    #             "factor": args.yarn,
+    #             "original_max_position_embeddings": args.original_max_position_embeddings,
+    #         }
+    #     elif args.dynamic_yarn:
+    #         config.rope_scaling = {
+    #             "type": "dynamic-yarn",
+    #             "factor": args.factor if args.factor else config.rope_scaling.get("factor", 1.0),
+    #             "original_max_position_embeddings": args.original_max_position_embeddings if args.original_max_position_embeddings else config.rope_scaling["original_max_position_embeddings"],
+    #             "finetuned": args.finetuned if args.finetuned else config.rope_scaling.get("finetuned", False)
+    #         }
+    #     if args.flash_attention:
+    #         config.use_flash_attention = args.flash_attention
+    # else:
+    #     if args.rerope:
+    #         assert not args.custom_model and not args.custom_model_together
+    #         from transformers.models.llama.modeling_llama import LlamaAttention
+    #         from scaled_rope.LlamaReRoPE import forward_with_rerope
+    #         LlamaAttention.forward = forward_with_rerope
 
     if args.load_in_8bit or args.load_in_4bit:
         quantization_config = BitsAndBytesConfig(
